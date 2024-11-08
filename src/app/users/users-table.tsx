@@ -18,11 +18,12 @@ import { UserItem } from "./user-item";
 import { useEffect, useState } from "react";
 import { PaginationButton } from "@/components/paginationButton";
 import { Icons } from "@/components/icons";
-import { getUsers } from "@/services/usersService";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { UserDialog } from "./user-dialog";
+import { UserService } from "@/services/usersService";
 
 export function UsersTable() {
+  const userService = new UserService();
+
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(0);
@@ -40,12 +41,12 @@ export function UsersTable() {
   const fetchUsers = async (page: number, pageSize: number) => {
     try {
       const search = "";
-      let { data: users, total } = await getUsers(search);
+      let { data: users, total } = await userService.getUsers(search);
 
       setTotal(total);
       setUsers(users);
     } catch (error) {
-      console.error("Erro ao buscar usuários:", error);
+      console.log("Erro ao buscar usuários:", error);
     } finally {
       setLoading(false);
     }
@@ -63,10 +64,7 @@ export function UsersTable() {
     <Card>
       <CardHeader>
         <CardTitle>
-          Users{" "}
-          <Button variant="outline" size="icon">
-            <Plus />
-          </Button>
+          Users <UserDialog></UserDialog>
         </CardTitle>
         <CardDescription>
           Manage your users and view their sales performance.
