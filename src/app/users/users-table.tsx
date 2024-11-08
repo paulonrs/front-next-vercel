@@ -13,12 +13,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { UserItem } from "./userItem";
+import { UserItem } from "./user-item";
 
 import { useEffect, useState } from "react";
 import { PaginationButton } from "@/components/paginationButton";
 import { Icons } from "@/components/icons";
 import { getUsers } from "@/services/usersService";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 
 export function UsersTable() {
   const [users, setUsers] = useState<any[]>([]);
@@ -60,7 +62,12 @@ export function UsersTable() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Users</CardTitle>
+        <CardTitle>
+          Users{" "}
+          <Button variant="outline" size="icon">
+            <Plus />
+          </Button>
+        </CardTitle>
         <CardDescription>
           Manage your users and view their sales performance.
         </CardDescription>
