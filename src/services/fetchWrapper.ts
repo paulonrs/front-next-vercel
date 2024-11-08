@@ -1,15 +1,23 @@
 import API_BASE_URL from "@/config/config";
 
-export async function fetchWrapper<T>(
-  url: string,
-  method: string = "GET",
-  options: RequestInit = {}
-): Promise<T> {
+export async function fetchWrapper<T>({
+  url,
+  method = "GET",
+  body = {},
+}: {
+  url: string;
+  method?: string;
+  body?: any;
+}): Promise<T> {
   try {
-    options.method = options.method;
+    const options: RequestInit = {};
+    options.method = method;
     options.headers = {
       "Content-Type": "application/json",
     };
+    if (method !== "GET" && body) {
+      options.body = JSON.stringify(body);
+    }
 
     const resposta: Response = await fetch(`${API_BASE_URL}/${url}`, options);
 
